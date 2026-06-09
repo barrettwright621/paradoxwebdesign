@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BW Auto Detailing — Precision. Perfection.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;1,6..96,400;1,6..96,500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root {
+  --gold: #CA8A04;
+  --gold-light: #EAB308;
+  --bg: #0C0A09;
+  --surface: #1C1917;
+  --surface2: #292524;
+  --text: #FAFAF9;
+  --muted: #A8A29E;
+  --dim: #78716C;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; overflow-x: hidden; }
+h1, h2, h3, h4, .serif { font-family: 'Bodoni Moda', serif; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+/* Glass */
+.glass {
+  background: rgba(255,255,255,0.035);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.glass-gold { border-color: rgba(202,138,4,0.18); }
+
+/* Gold gradient text */
+.gold-text {
+  background: linear-gradient(135deg, #CA8A04 0%, #EAB308 50%, #CA8A04 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section label */
+.label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-family: 'Jost', sans-serif;
+}
+
+/* Glow line */
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(202,138,4,0.25) 20%, rgba(202,138,4,0.55) 50%, rgba(202,138,4,0.25) 80%, transparent 100%);
+}
+
+/* Divider */
+.divider {
+  width: 48px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 1.75rem;
+}
+
+/* Buttons */
+.btn-gold {
+  display: inline-block;
+  background: linear-gradient(135deg, #B45309, #CA8A04, #EAB308);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  color: #0C0A09;
+  font-family: 'Jost', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.9rem 2.25rem;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-position 400ms ease-out, box-shadow 250ms ease-out, transform 150ms ease-out;
+  position: relative;
+  overflow: hidden;
+}
+.btn-gold:hover {
+  background-position: 0 0;
+  box-shadow: 0 6px 28px rgba(202,138,4,0.38);
+}
+.btn-gold:active { transform: scale(0.97); }
+
+.btn-ghost {
+  display: inline-block;
+  background: transparent;
+  color: var(--text);
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.9rem 2.25rem;
+  border-radius: 0.4rem;
+  border: 1px solid rgba(255,255,255,0.18);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 250ms ease-out, background 250ms ease-out, transform 150ms ease-out;
+}
+.btn-ghost:hover { border-color: rgba(202,138,4,0.45); background: rgba(202,138,4,0.06); }
+.btn-ghost:active { transform: scale(0.97); }
+
+/* Navbar */
+#navbar {
+  position: fixed; top: 0.9rem; left: 0.9rem; right: 0.9rem;
+  z-index: 200; border-radius: 0.9rem;
+  transition: background 350ms ease-out, border-color 350ms ease-out, backdrop-filter 350ms;
+}
+#navbar.scrolled {
+  background: rgba(12,10,9,0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(202,138,4,0.14);
+}
+.nav-link {
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(250,250,249,0.62); text-decoration: none;
+  transition: color 200ms ease-out;
+  position: relative;
+}
+.nav-link::after {
+  content: ''; position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1px; background: var(--gold);
+  transition: width 250ms ease-out;
+}
+.nav-link:hover { color: var(--gold); }
+.nav-link:hover::after { width: 100%; }
+
+/* Hero */
+#hero {
+  min-height: 100vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+/* Grid overlay */
+.grid-overlay {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(202,138,4,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(202,138,4,0.028) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* 3D floating shapes */
+.shape {
+  position: absolute; pointer-events: none;
+  border: 1px solid rgba(202,138,4,0.16);
+  border-radius: 18%;
+  background: linear-gradient(135deg, rgba(202,138,4,0.04), transparent);
+}
+.s1 { width: 340px; height: 340px; top: 4%; left: -6%; opacity: .12;
+      animation: fa 13s ease-in-out infinite; }
+.s2 { width: 180px; height: 180px; top: 65%; right: -2%; opacity: .10;
+      animation: fb 9s ease-in-out infinite -4s; }
+.s3 { width: 130px; height: 130px; top: 20%; right: 12%; opacity: .14;
+      animation: fc 11s ease-in-out infinite -7s; }
+.s4 { width: 70px; height: 70px; bottom: 18%; left: 18%; opacity: .10;
+      animation: fa 7s ease-in-out infinite -2s; border-radius: 28%; }
+.orb {
+  position: absolute; width: 680px; height: 680px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(202,138,4,0.1) 0%, rgba(234,179,8,0.05) 35%, transparent 68%);
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  animation: pulse 7s ease-in-out infinite; pointer-events: none;
+}
+@keyframes fa {
+  0%,100% { transform: translate3d(0,0,0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  25% { transform: translate3d(18px,-28px,40px) rotateX(14deg) rotateY(18deg) rotateZ(5deg); }
+  50% { transform: translate3d(-12px,22px,-25px) rotateX(-10deg) rotateY(-14deg) rotateZ(-7deg); }
+  75% { transform: translate3d(28px,8px,18px) rotateX(7deg) rotateY(22deg) rotateZ(3deg); }
+}
+@keyframes fb {
+  0%,100% { transform: translate3d(0,0,0) rotateY(0deg); }
+  33% { transform: translate3d(-22px,18px,35px) rotateX(-18deg) rotateY(14deg) rotateZ(9deg); }
+  66% { transform: translate3d(14px,-22px,-18px) rotateX(11deg) rotateY(-16deg) rotateZ(-5deg); }
+}
+@keyframes fc {
+  0%,100% { transform: translate3d(0,0,0) rotateY(0deg) rotateZ(0deg); }
+  50% { transform: translate3d(-18px,26px,55px) rotateY(175deg) rotateZ(12deg); }
+}
+@keyframes pulse {
+  0%,100% { opacity: .7; transform: translate(-50%,-50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%,-50%) scale(1.08); }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0; transform: translateY(36px);
+  transition: opacity 650ms ease-out, transform 650ms ease-out;
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 120ms; }
+.d2 { transition-delay: 240ms; }
+.d3 { transition-delay: 360ms; }
+.d4 { transition-delay: 480ms; }
+
+/* Tilt cards */
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 280ms ease-out, box-shadow 280ms ease-out;
+  cursor: default;
+}
+.tilt:hover { box-shadow: 0 22px 55px rgba(202,138,4,0.1), 0 0 0 1px rgba(202,138,4,0.18); }
+
+/* Service card top glow line */
+.scard::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(202,138,4,0.35), transparent);
+}
+
+/* Stat number */
+.stat-n {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 3.25rem; font-weight: 700;
+  color: var(--gold); line-height: 1;
+}
+
+/* Testimonial marquee */
+.marquee-wrap { overflow: hidden; }
+.marquee-track {
+  display: flex; gap: 1.25rem; width: max-content;
+  animation: marquee 50s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-fade {
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+/* Form inputs */
+.finput {
+  width: 100%;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.45rem;
+  padding: 0.85rem 1rem;
+  color: var(--text);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 200ms ease-out;
+}
+.finput::placeholder { color: var(--dim); }
+.finput:focus { border-color: rgba(202,138,4,0.42); }
+select.finput { background: var(--surface); cursor: pointer; }
+
+/* Scroll indicator */
+@keyframes scrollDrop {
+  0%,100% { opacity: .35; transform: scaleY(1); transform-origin: top; }
+  50% { opacity: .7; transform: scaleY(0.7); transform-origin: top; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .shape, .orb, .marquee-track { animation: none !important; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Mobile nav */
+#mobile-menu { display: none; }
+#mobile-menu.open { display: flex; }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav id="navbar">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0.875rem 1.5rem;">
+    <a href="#hero" style="display:flex;align-items:center;gap:0.625rem;text-decoration:none;">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="14.5" stroke="#CA8A04" stroke-width="1"/>
+        <path d="M9 16c0-3.866 3.134-7 7-7s7 3.134 7 7-3.134 7-7 7" stroke="#CA8A04" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="16" cy="16" r="2.5" fill="#CA8A04"/>
+      </svg>
+      <span class="serif" style="font-size:1.05rem;font-weight:500;letter-spacing:0.06em;color:var(--text);">BW Auto</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:2rem;" class="hidden md:flex">
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#process" class="nav-link">Process</a>
+      <a href="#testimonials" class="nav-link">Reviews</a>
+      <a href="#contact" class="btn-gold" style="padding:0.6rem 1.5rem;">Book Now</a>
+    </div>
+    <button id="menu-btn" class="md:hidden" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:0.4rem;padding:0.5rem;cursor:pointer;" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div id="mobile-menu" style="flex-direction:column;gap:1rem;padding:0 1.5rem 1.25rem;">
+    <a href="#services" class="nav-link">Services</a>
+    <a href="#process" class="nav-link">Process</a>
+    <a href="#testimonials" class="nav-link">Reviews</a>
+    <a href="#contact" class="btn-gold" style="text-align:center;">Book Now</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="grid-overlay"></div>
+  <div class="orb"></div>
+  <div class="shape s1"></div>
+  <div class="shape s2"></div>
+  <div class="shape s3"></div>
+  <div class="shape s4"></div>
+
+  <div style="position:relative;z-index:10;text-align:center;padding:0 1.5rem;max-width:900px;margin:0 auto;padding-top:7rem;">
+    <p class="label reveal" style="margin-bottom:1.5rem;">Mobile Auto Detailing</p>
+    <h1 class="serif reveal d1" style="font-size:clamp(3rem,9vw,6.5rem);font-weight:700;line-height:1.04;margin-bottom:1.5rem;letter-spacing:-0.01em;">
+      Precision.<br><em class="gold-text">Perfection.</em>
+    </h1>
+    <p class="reveal d2" style="color:var(--muted);font-size:clamp(0.95rem,2vw,1.1rem);line-height:1.85;max-width:520px;margin:0 auto 2.5rem;font-weight:300;">
+      Barrett and his team bring showroom-quality detailing directly to your home or office. No drop-off. No hassle. Just flawless results.
+    </p>
+    <div class="reveal d3" style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
+      <a href="#contact" class="btn-gold">Book Your Detail</a>
+      <a href="#services" class="btn-ghost">View Services</a>
+    </div>
+    <div class="reveal d4" style="margin-top:2.5rem;">
+      <div class="glass" style="display:inline-flex;align-items:center;gap:0.75rem;padding:0.6rem 1.25rem;border-radius:3rem;border-color:rgba(202,138,4,0.2);">
+        <span style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;">★★★★★</span>
+        <span style="font-size:0.8rem;color:var(--muted);">5.0 · 50+ Google Reviews</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.35;pointer-events:none;">
+    <span style="font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;">Scroll</span>
+    <div style="width:1px;height:36px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollDrop 2.2s ease-in-out infinite;"></div>
+  </div>
+</section>
+
+<!-- ═══ TRUST BAR ═══ -->
+<div class="glow-line"></div>
+<section style="background:var(--surface);padding:2.5rem 1.5rem;">
+  <div style="max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1.5rem;text-align:center;">
+    <div class="reveal">
+      <div class="stat-n" data-count="50">0</div>
+      <p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);margin-top:0.3rem;">5-Star Reviews</p>
+    </div>
+    <div class="reveal d1">
+      <div class="stat-n" data-count="200">0</div>
+      <p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);margin-top:0.3rem;">Vehicles Detailed</p>
+    </div>
+    <div class="reveal d2">
+      <div class="stat-n">5.0</div>
+      <p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);margin-top:0.3rem;">Avg. Rating</p>
+    </div>
+    <div class="reveal d3">
+      <div class="stat-n">100<span style="font-size:1.75rem;">%</span></div>
+      <p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);margin-top:0.3rem;">Satisfaction</p>
+    </div>
+  </div>
+</section>
+<div class="glow-line"></div>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services" style="padding:7rem 1.5rem;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <p class="label reveal">What We Offer</p>
+      <h2 class="serif reveal d1" style="font-size:clamp(2rem,5vw,3.25rem);font-weight:700;margin-top:0.75rem;margin-bottom:1.25rem;">Detailing Services</h2>
+      <div class="divider reveal d2"></div>
+      <p class="reveal d2" style="color:var(--muted);max-width:480px;margin:0 auto;line-height:1.85;font-weight:300;font-size:0.95rem;">Premium products. Careful hands. Every surface treated with precision — because your vehicle deserves nothing less.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;">
+
+      <!-- Interior -->
+      <div class="glass glass-gold tilt scard reveal" style="padding:2rem;border-radius:1rem;position:relative;overflow:hidden;">
+        <div style="width:2.75rem;height:2.75rem;background:rgba(202,138,4,0.09);border:1px solid rgba(202,138,4,0.22);border-radius:0.65rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <h3 class="serif" style="font-size:1.2rem;font-weight:600;margin-bottom:0.6rem;">Interior Detail</h3>
+        <p style="color:var(--muted);font-size:0.875rem;line-height:1.8;margin-bottom:1.5rem;font-weight:300;">Deep vacuum, steam clean, leather conditioning, carpet extraction, dashboard restoration. Dog hair? Kids' messes? No problem.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.45rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1.25rem;">
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Seats & carpets extracted</li>
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Dashboard & console detailed</li>
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Windows & mirrors cleaned</li>
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Odor treatment</li>
+        </ul>
+      </div>
+
+      <!-- Exterior -->
+      <div class="glass glass-gold tilt scard reveal d1" style="padding:2rem;border-radius:1rem;position:relative;overflow:hidden;">
+        <div style="width:2.75rem;height:2.75rem;background:rgba(202,138,4,0.09);border:1px solid rgba(202,138,4,0.22);border-radius:0.65rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </div>
+        <h3 class="serif" style="font-size:1.2rem;font-weight:600;margin-bottom:0.6rem;">Exterior Detail</h3>
+        <p style="color:var(--muted);font-size:0.875rem;line-height:1.8;margin-bottom:1.5rem;font-weight:300;">Hand wash, clay bar treatment, tire dressing, wheel cleaning, and wax protection. Your paint deserves careful hands — not a machine.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.45rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1.25rem;">
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Hand wash & dry</li>
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Clay bar decontamination</li>
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Wheels & tires dressed</li>
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Wax & paint protection</li>
+        </ul>
+      </div>
+
+      <!-- Full Detail (featured) -->
+      <div class="tilt scard reveal d2" style="padding:2rem;border-radius:1rem;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(202,138,4,0.11),rgba(202,138,4,0.04));border:1px solid rgba(202,138,4,0.28);">
+        <div style="position:absolute;top:1rem;right:1rem;background:var(--gold);color:#0C0A09;font-size:0.58rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;padding:0.2rem 0.65rem;border-radius:2rem;">Most Popular</div>
+        <div style="width:2.75rem;height:2.75rem;background:rgba(202,138,4,0.14);border:1px solid rgba(202,138,4,0.3);border-radius:0.65rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <h3 class="serif" style="font-size:1.2rem;font-weight:600;margin-bottom:0.6rem;">Full Detail</h3>
+        <p style="color:var(--muted);font-size:0.875rem;line-height:1.8;margin-bottom:1.5rem;font-weight:300;">The complete treatment — interior and exterior combined. Multiple customers report their vehicles looking brand new after years of wear.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.45rem;border-top:1px solid rgba(202,138,4,0.15);padding-top:1.25rem;">
+          <li style="font-size:0.78rem;color:rgba(250,250,249,0.6);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Full interior + exterior</li>
+          <li style="font-size:0.78rem;color:rgba(250,250,249,0.6);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Pet hair removal</li>
+          <li style="font-size:0.78rem;color:rgba(250,250,249,0.6);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Engine bay (on request)</li>
+          <li style="font-size:0.78rem;color:rgba(250,250,249,0.6);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Results guaranteed</li>
+        </ul>
+      </div>
+
+      <!-- Paint Correction -->
+      <div class="glass glass-gold tilt scard reveal d3" style="padding:2rem;border-radius:1rem;position:relative;overflow:hidden;">
+        <div style="width:2.75rem;height:2.75rem;background:rgba(202,138,4,0.09);border:1px solid rgba(202,138,4,0.22);border-radius:0.65rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </div>
+        <h3 class="serif" style="font-size:1.2rem;font-weight:600;margin-bottom:0.6rem;">Paint Correction</h3>
+        <p style="color:var(--muted);font-size:0.875rem;line-height:1.8;margin-bottom:1.5rem;font-weight:300;">Remove swirl marks, light scratches, and oxidation. Multi-stage machine polish that restores true depth and gloss to your clear coat.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.45rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1.25rem;">
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Swirl mark removal</li>
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Light scratch elimination</li>
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Machine polish</li>
+          <li style="font-size:0.78rem;color:var(--dim);display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--gold);">—</span> Gloss & depth restored</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="process" style="background:var(--surface);padding:7rem 1.5rem;">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <p class="label reveal">Simple Process</p>
+      <h2 class="serif reveal d1" style="font-size:clamp(2rem,5vw,3.25rem);font-weight:700;margin-top:0.75rem;margin-bottom:1.25rem;">How It Works</h2>
+      <div class="divider reveal d2"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;">
+      <div class="reveal" style="text-align:center;padding:2rem 1rem;">
+        <div style="width:3.75rem;height:3.75rem;border-radius:50%;border:1px solid rgba(202,138,4,0.38);background:rgba(202,138,4,0.055);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+          <span class="serif" style="font-size:1.15rem;color:var(--gold);font-weight:700;">01</span>
+        </div>
+        <h3 class="serif" style="font-size:1.05rem;font-weight:600;margin-bottom:0.75rem;">Reach Out</h3>
+        <p style="color:var(--dim);font-size:0.85rem;line-height:1.85;font-weight:300;">Call, text, or fill in the form below. Barrett responds quickly and works around your schedule — no waiting days for a callback.</p>
+      </div>
+      <div class="reveal d1" style="text-align:center;padding:2rem 1rem;">
+        <div style="width:3.75rem;height:3.75rem;border-radius:50%;border:1px solid rgba(202,138,4,0.38);background:rgba(202,138,4,0.055);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+          <span class="serif" style="font-size:1.15rem;color:var(--gold);font-weight:700;">02</span>
+        </div>
+        <h3 class="serif" style="font-size:1.05rem;font-weight:600;margin-bottom:0.75rem;">We Come To You</h3>
+        <p style="color:var(--dim);font-size:0.85rem;line-height:1.85;font-weight:300;">We arrive fully equipped at your home or office. No drop-off, no waiting around — your day stays completely uninterrupted.</p>
+      </div>
+      <div class="reveal d2" style="text-align:center;padding:2rem 1rem;">
+        <div style="width:3.75rem;height:3.75rem;border-radius:50%;border:1px solid rgba(202,138,4,0.38);background:rgba(202,138,4,0.055);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+          <span class="serif" style="font-size:1.15rem;color:var(--gold);font-weight:700;">03</span>
+        </div>
+        <h3 class="serif" style="font-size:1.05rem;font-weight:600;margin-bottom:0.75rem;">Drive Like New</h3>
+        <p style="color:var(--dim);font-size:0.85rem;line-height:1.85;font-weight:300;">Walk out to a vehicle that looks and smells showroom-fresh. Results so good that a 17-year-old car looks brand new.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section id="testimonials" style="padding:7rem 0;overflow:hidden;">
+  <div style="text-align:center;margin-bottom:3.5rem;padding:0 1.5rem;">
+    <p class="label reveal">Real Customers</p>
+    <h2 class="serif reveal d1" style="font-size:clamp(2rem,5vw,3.25rem);font-weight:700;margin-top:0.75rem;margin-bottom:1.25rem;">What They're Saying</h2>
+    <div class="divider reveal d2"></div>
+  </div>
+
+  <div class="marquee-fade marquee-wrap">
+    <div class="marquee-track">
+      <!-- 9 reviews × 2 for seamless loop -->
+      <!-- 1 -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);">
+        <div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+        <p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Barrett did an amazing job on my wife's car. Had it done elsewhere before — twice the price, half the quality. Results here were outstanding."</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;">
+          <div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">J</div>
+          <div><p style="font-size:0.82rem;font-weight:500;">Jeff C.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div>
+        </div>
+      </div>
+      <!-- 2 -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);">
+        <div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+        <p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"My car was full of dog hair and kid messes — Barrett did a wonderful job! Prompt, professional, went the extra mile. Highly recommend!"</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;">
+          <div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">A</div>
+          <div><p style="font-size:0.82rem;font-weight:500;">Amanda B.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div>
+        </div>
+      </div>
+      <!-- 3 -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);">
+        <div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+        <p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Barrett did awesome work! My minivan looks absolutely new — believe me, not an easy task with a big shedding dog. Highly recommend!"</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;">
+          <div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">M</div>
+          <div><p style="font-size:0.82rem;font-weight:500;">Manjari S.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div>
+        </div>
+      </div>
+      <!-- 4 -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);">
+        <div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+        <p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Very responsive, on time, awesome job on two cars. Completed the work as stated — I would recommend him without reserve. We plan to use him again."</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;">
+          <div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">D</div>
+          <div><p style="font-size:0.82rem;font-weight:500;">Dennis H.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div>
+        </div>
+      </div>
+      <!-- 5 -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);">
+        <div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+        <p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"BW Auto did a great job detailing our truck. Barrett was very thorough inside and outside. Highly recommend."</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;">
+          <div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">M</div>
+          <div><p style="font-size:0.82rem;font-weight:500;">Michael B.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div>
+        </div>
+      </div>
+      <!-- 6 -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);">
+        <div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+        <p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Barrett and his team made the interior look like new. Thoroughly satisfied."</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;">
+          <div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">K</div>
+          <div><p style="font-size:0.82rem;font-weight:500;">Ken J.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review · Local Guide</p></div>
+        </div>
+      </div>
+      <!-- 7 -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);">
+        <div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+        <p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"My car is 17 years old and it now looks brand new! I highly recommend this motivated young gentleman."</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;">
+          <div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">J</div>
+          <div><p style="font-size:0.82rem;font-weight:500;">Janet R.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div>
+        </div>
+      </div>
+      <!-- 8 -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);">
+        <div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+        <p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Extremely pleased with both our vehicles. Very thorough, everything perfect — like new when finished. Top notch. Recommend this company!"</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;">
+          <div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">B</div>
+          <div><p style="font-size:0.82rem;font-weight:500;">Becky R.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div>
+        </div>
+      </div>
+      <!-- 9 -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);">
+        <div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+        <p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Excellent job. My interior looked brand new!"</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;">
+          <div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">M</div>
+          <div><p style="font-size:0.82rem;font-weight:500;">Matt D.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review · Recent</p></div>
+        </div>
+      </div>
+      <!-- Duplicate set (same 9) for seamless loop -->
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);"><div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div><p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Barrett did an amazing job on my wife's car. Had it done elsewhere before — twice the price, half the quality. Results here were outstanding."</p><div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;"><div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">J</div><div><p style="font-size:0.82rem;font-weight:500;">Jeff C.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div></div></div>
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);"><div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div><p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"My car was full of dog hair and kid messes — Barrett did a wonderful job! Prompt, professional, went the extra mile. Highly recommend!"</p><div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;"><div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">A</div><div><p style="font-size:0.82rem;font-weight:500;">Amanda B.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div></div></div>
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);"><div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div><p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Barrett did awesome work! My minivan looks absolutely new — not an easy task with a big shedding dog. Highly recommend!"</p><div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;"><div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">M</div><div><p style="font-size:0.82rem;font-weight:500;">Manjari S.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div></div></div>
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);"><div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div><p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Very responsive, on time, awesome job on two cars. I would recommend him without reserve. We plan to use him again."</p><div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;"><div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">D</div><div><p style="font-size:0.82rem;font-weight:500;">Dennis H.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div></div></div>
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);"><div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div><p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"BW Auto did a great job detailing our truck. Barrett was very thorough inside and outside. Highly recommend."</p><div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;"><div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">M</div><div><p style="font-size:0.82rem;font-weight:500;">Michael B.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div></div></div>
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);"><div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div><p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Barrett and his team made the interior look like new. Thoroughly satisfied."</p><div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;"><div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">K</div><div><p style="font-size:0.82rem;font-weight:500;">Ken J.</p><p style="font-size:0.72rem;color:var(--dim);">Local Guide</p></div></div></div>
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);"><div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div><p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"My car is 17 years old and it now looks brand new! I highly recommend this motivated young gentleman."</p><div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;"><div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">J</div><div><p style="font-size:0.82rem;font-weight:500;">Janet R.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div></div></div>
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);"><div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div><p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Extremely pleased with both our vehicles. Very thorough, like new when finished. Top notch!"</p><div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;"><div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">B</div><div><p style="font-size:0.82rem;font-weight:500;">Becky R.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div></div></div>
+      <div class="glass" style="flex-shrink:0;width:310px;padding:1.75rem;border-radius:1rem;border-color:rgba(202,138,4,0.1);"><div style="color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div><p style="color:#D6D3D1;font-size:0.875rem;line-height:1.85;font-style:italic;margin-bottom:1.25rem;font-weight:300;">"Excellent job. My interior looked brand new!"</p><div style="display:flex;align-items:center;gap:0.7rem;border-top:1px solid rgba(255,255,255,0.055);padding-top:1rem;"><div style="width:2.1rem;height:2.1rem;border-radius:50%;background:linear-gradient(135deg,#CA8A04,#78350F);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda',serif;font-weight:700;color:#0C0A09;font-size:0.8rem;flex-shrink:0;">M</div><div><p style="font-size:0.82rem;font-weight:500;">Matt D.</p><p style="font-size:0.72rem;color:var(--dim);">Google Review</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA / CONTACT ═══ -->
+<section id="contact" style="background:var(--surface);padding:7rem 1.5rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(ellipse,rgba(202,138,4,0.07) 0%,transparent 60%);pointer-events:none;"></div>
+  <div style="max-width:600px;margin:0 auto;text-align:center;position:relative;">
+    <p class="label reveal">Ready?</p>
+    <h2 class="serif reveal d1" style="font-size:clamp(2rem,5vw,3.5rem);font-weight:700;margin-top:0.75rem;margin-bottom:1.25rem;line-height:1.1;">
+      Your Vehicle<br><em class="gold-text">Deserves This.</em>
+    </h2>
+    <p class="reveal d2" style="color:var(--muted);line-height:1.85;margin-bottom:2.5rem;font-size:0.95rem;font-weight:300;">Barrett and his team come to you — home or office. No drop-off. No hassle. Just flawless results backed by dozens of five-star reviews.</p>
+
+    <div class="glass reveal d3" style="padding:2.25rem;border-radius:1.25rem;border-color:rgba(202,138,4,0.15);">
+      <form onsubmit="handleSubmit(event)" style="display:flex;flex-direction:column;gap:0.875rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.875rem;">
+          <input class="finput" type="text" name="name" placeholder="Your Name" required>
+          <input class="finput" type="tel" name="phone" placeholder="Phone Number" required>
+        </div>
+        <input class="finput" type="text" name="vehicle" placeholder="Vehicle (Year, Make, Model)" required>
+        <select class="finput" name="service" required>
+          <option value="" disabled selected>Select Service</option>
+          <option>Interior Detail</option>
+          <option>Exterior Detail</option>
+          <option>Full Detail</option>
+          <option>Paint Correction</option>
+        </select>
+        <textarea class="finput" name="notes" placeholder="Additional notes (pet hair, specific concerns...)" rows="3" style="resize:none;"></textarea>
+        <button type="submit" class="btn-gold" style="width:100%;padding:1rem;font-size:0.75rem;" id="submit-btn">Request Booking</button>
+        <p id="form-msg" style="font-size:0.8rem;color:var(--gold);display:none;margin-top:0.25rem;">Thanks! We'll be in touch shortly.</p>
+      </form>
+    </div>
+
+    <p class="reveal" style="color:var(--dim);font-size:0.8rem;margin-top:1.5rem;">Prefer to call or text? Reach Barrett directly at <a href="tel:bwautodetailing" style="color:var(--gold);text-decoration:none;">bwautodetailing.net</a></p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer style="background:var(--bg);padding:2.75rem 1.5rem;border-top:1px solid rgba(255,255,255,0.05);">
+  <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem;">
+    <div>
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.4rem;">
+        <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14.5" stroke="#CA8A04" stroke-width="1"/><path d="M9 16c0-3.866 3.134-7 7-7s7 3.134 7 7-3.134 7-7 7" stroke="#CA8A04" stroke-width="1.4" stroke-linecap="round"/><circle cx="16" cy="16" r="2.5" fill="#CA8A04"/></svg>
+        <span class="serif" style="font-size:0.95rem;font-weight:500;letter-spacing:0.06em;">BW Auto Detailing</span>
+      </div>
+      <p style="font-size:0.75rem;color:var(--dim);">Mobile Auto Detailing · Professional · Reliable</p>
+    </div>
+    <nav style="display:flex;gap:1.75rem;flex-wrap:wrap;">
+      <a href="#services" class="nav-link" style="font-size:0.72rem;">Services</a>
+      <a href="#process" class="nav-link" style="font-size:0.72rem;">Process</a>
+      <a href="#testimonials" class="nav-link" style="font-size:0.72rem;">Reviews</a>
+      <a href="#contact" class="nav-link" style="font-size:0.72rem;">Contact</a>
+    </nav>
+    <p style="font-size:0.72rem;color:#44403C;">© 2025 BW Auto Detailing. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// Mobile menu
+document.getElementById('menu-btn').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+
+// Close mobile menu on link click
+document.querySelectorAll('#mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
+});
+
+// Smooth anchor scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+// Scroll reveal
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// Immediately reveal hero
+setTimeout(() => {
+  document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('in'));
+}, 80);
+
+// Counter animation
+function countUp(el) {
+  const target = parseInt(el.dataset.count);
+  const dur = 1800;
+  const start = performance.now();
+  (function tick(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * target) + '+';
+    if (p < 1) requestAnimationFrame(tick);
+  })(start);
+}
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { countUp(e.target); countObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+
+// 3D card tilt (Emil principle: transform only, GPU-accelerated)
+document.querySelectorAll('.tilt').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `perspective(900px) rotateX(${-y * 7}deg) rotateY(${x * 7}deg) translateZ(6px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// Form submit
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const msg = document.getElementById('form-msg');
+  btn.textContent = 'Sent!';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+  msg.style.display = 'block';
+}
+</script>
+</body>
+</html>
