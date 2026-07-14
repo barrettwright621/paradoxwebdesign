@@ -17,19 +17,25 @@
     }
     html, body { background: #0A0A0A; margin: 0; }
 
-    /* Quiet luxury chrome tweaks over the engine defaults */
-    .sw-brand__name {
-      letter-spacing: .42em;
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: .8rem;
+    /* Brand mark: center the 匠 (takumi / master artisan) glyph on the platinum tile */
+    .sw-brand__mark { display: flex; align-items: center; justify-content: center; }
+    .sw-brand__mark::after { content: "\5320"; color: #0A0A0A; font-size: 15px; font-weight: 700; line-height: 1; }
+    .sw-brand__name { letter-spacing: .42em; font-weight: 600; text-transform: uppercase; font-size: .82rem; }
+
+    /* Editorial type: thin, wide-tracked — quiet luxury */
+    .sw-copy__eyebrow { letter-spacing: .34em !important; }
+    .sw-copy__title { font-weight: 300 !important; letter-spacing: -.015em; }
+
+    /* Dark-theme contrast fixes. The engine's primary surfaces assume a LIGHT theme:
+       they paint var(--sw-ink) / var(--sw-accent), both near-white here, so white-on-white.
+       Repaint them on the platinum accent with dark ink so they read on the black bg. */
+    .sw-topcta, .sw-btn--primary {
+      background: var(--sw-accent) !important; color: #0A0A0A !important;
+      letter-spacing: .12em; text-transform: uppercase; font-size: .76rem; font-weight: 700;
     }
-    .sw-brand__mark::after { content: "\5320"; }   /* 匠 — takumi / master artisan */
-    .sw-eyebrow { letter-spacing: .34em !important; text-transform: uppercase; }
-    .sw-title { font-weight: 300; letter-spacing: -.01em; }
-    .sw-topcta, .sw-cta__primary {
-      letter-spacing: .12em; text-transform: uppercase; font-size: .74rem; font-weight: 600;
-    }
+    .sw-nav { background: color-mix(in srgb, #fff 7%, transparent) !important; }
+    .sw-nav__item.is-active { color: #0A0A0A !important; }
+    .sw-copy__tags li { color: #0A0A0A !important; }
   </style>
 </head>
 <body>
@@ -38,18 +44,23 @@
 
   <script src="scrub-engine.js"></script>
   <script>
+    // Media is hotlinked from Higgsfield's (public, range-capable) CloudFront CDN.
+    // directSrc:true makes the engine set <video src> directly instead of Blob-fetching,
+    // so cross-origin clips play/seek without needing CORS headers. See scrub-engine.js.
+    var CDN = 'https://d8j0ntlcm91z4.cloudfront.net/user_3EEp6ZtlEuocGgQChoORTTgz9x8/';
+
     mountScrollWorld(document.getElementById('world'), {
       brand: { name: 'Takumi', href: '#top' },
       cta: { label: 'Book a detail', href: '#reveal' },
       hint: 'scroll to begin',
       diveScroll: 1.3,
-      crossfade: 0.08,        // architecture A: legs chain directly, small dissolve at each seam
+      crossfade: 0.09,        // independent clips cross-dissolve at each seam (no frame-locked chain)
+      directSrc: true,
       sections: [
         {
           id: 'arrival', label: 'Arrival',
-          still: 'assets/arrival.webp',
-          clip: 'assets/vid/arrival.mp4',
-          clipMobile: 'assets/vid/arrival-m.mp4',
+          still: CDN + 'hf_20260714_052620_be97ae17-6d98-47c7-9c76-b52c35a3a1eb.png',
+          clip: CDN + 'hf_20260714_054943_e18aea1e-4cf0-408d-a944-d2f4bf6ff91e.mp4',
           accent: '#E8E4DB',
           scroll: 1.7, linger: 0.45,
           eyebrow: 'Mobile detailing, refined',
@@ -59,9 +70,8 @@
         },
         {
           id: 'wash', label: 'The Wash',
-          still: 'assets/wash.webp',
-          clip: 'assets/vid/wash.mp4',
-          clipMobile: 'assets/vid/wash-m.mp4',
+          still: CDN + 'hf_20260714_052635_b2545378-4cb7-4180-ba67-32ffb1656fdb.png',
+          clip: CDN + 'hf_20260714_055733_914884c3-379f-4620-ac36-325ac6f2125a.mp4',
           accent: '#D8DCDE',
           scroll: 1.25,
           eyebrow: 'The ritual begins',
@@ -71,10 +81,9 @@
         },
         {
           id: 'correction', label: 'Correction',
-          still: 'assets/correction.webp',
-          clip: 'assets/vid/correction.mp4',
-          clipMobile: 'assets/vid/correction-m.mp4',
-          accent: '#CFCabc',
+          still: CDN + 'hf_20260714_052638_9cd60337-aa0f-4af7-a3ef-f3194467f55b.png',
+          clip: CDN + 'hf_20260714_054702_231b7fee-e28e-4877-843b-a7adcefe87c2.mp4',
+          accent: '#CFCABC',
           scroll: 1.35, linger: 0.4,
           eyebrow: 'Paint correction',
           title: 'Depth, restored.',
@@ -83,9 +92,8 @@
         },
         {
           id: 'interior', label: 'Interior',
-          still: 'assets/interior.webp',
-          clip: 'assets/vid/interior.mp4',
-          clipMobile: 'assets/vid/interior-m.mp4',
+          still: CDN + 'hf_20260714_052641_8d8027fb-dcee-4f82-8cca-032a96ae08c5.png',
+          clip: CDN + 'hf_20260714_055725_537667c4-55b5-42cd-8564-6766670518e1.mp4',
           accent: '#D8D2C6',
           scroll: 1.25,
           eyebrow: 'Interior craft',
@@ -95,9 +103,8 @@
         },
         {
           id: 'protection', label: 'Protection',
-          still: 'assets/protection.webp',
-          clip: 'assets/vid/protection.mp4',
-          clipMobile: 'assets/vid/protection-m.mp4',
+          still: CDN + 'hf_20260714_052914_05cd01b0-6e47-4821-8f0d-583c227a4ecd.png',
+          clip: CDN + 'hf_20260714_055324_c3462e3b-9f9a-4453-8d4b-a0cea09d4f7c.mp4',
           accent: '#CBD3D6',
           scroll: 1.35, linger: 0.4,
           eyebrow: 'Ceramic protection',
@@ -107,9 +114,8 @@
         },
         {
           id: 'reveal', label: 'The Reveal',
-          still: 'assets/reveal.webp',
-          clip: 'assets/vid/reveal.mp4',
-          clipMobile: 'assets/vid/reveal-m.mp4',
+          still: CDN + 'hf_20260714_052917_159d5e3a-2fef-4551-a83d-10c2c118a06f.png',
+          clip: CDN + 'hf_20260714_055736_fe4a4b04-e7bc-4492-a401-f3cdb7b1e066.mp4',
           accent: '#F1EEE7',
           scroll: 1.8, linger: 0.5,
           eyebrow: 'The reveal',
