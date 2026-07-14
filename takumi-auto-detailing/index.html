@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>TAKUMI — Mobile Auto Detailing</title>
+  <meta name="description" content="Takumi Auto Detailing — a mobile studio for the car you love. Scroll to fly through the craft, from arrival to the reveal." />
+  <style>
+    /* Dark, monochrome, Japanese-minimal luxury. Matches the black studio scenes. */
+    :root, .sw-root {
+      --sw-bg: #0A0A0A;            /* ink black — matches the dark studio clips */
+      --sw-ink: #F5F3EF;           /* warm paper white */
+      --sw-ink-soft: #8A8A8A;      /* mist grey */
+      --sw-accent: #E8E4DB;        /* warm platinum; sections override subtly */
+      --sw-font-display: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+      --sw-font-body: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    }
+    html, body { background: #0A0A0A; margin: 0; }
+
+    /* Quiet luxury chrome tweaks over the engine defaults */
+    .sw-brand__name {
+      letter-spacing: .42em;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: .8rem;
+    }
+    .sw-brand__mark::after { content: "\5320"; }   /* 匠 — takumi / master artisan */
+    .sw-eyebrow { letter-spacing: .34em !important; text-transform: uppercase; }
+    .sw-title { font-weight: 300; letter-spacing: -.01em; }
+    .sw-topcta, .sw-cta__primary {
+      letter-spacing: .12em; text-transform: uppercase; font-size: .74rem; font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div id="top"></div>
+  <div id="world"></div>
+
+  <script src="scrub-engine.js"></script>
+  <script>
+    mountScrollWorld(document.getElementById('world'), {
+      brand: { name: 'Takumi', href: '#top' },
+      cta: { label: 'Book a detail', href: '#reveal' },
+      hint: 'scroll to begin',
+      diveScroll: 1.3,
+      crossfade: 0.08,        // architecture A: legs chain directly, small dissolve at each seam
+      sections: [
+        {
+          id: 'arrival', label: 'Arrival',
+          still: 'assets/arrival.webp',
+          clip: 'assets/vid/arrival.mp4',
+          clipMobile: 'assets/vid/arrival-m.mp4',
+          accent: '#E8E4DB',
+          scroll: 1.7, linger: 0.45,
+          eyebrow: 'Mobile detailing, refined',
+          title: 'We come to you.',
+          body: 'Takumi brings the studio to your door — for the car you actually love.',
+          tags: ['Fully mobile', 'By appointment'],
+        },
+        {
+          id: 'wash', label: 'The Wash',
+          still: 'assets/wash.webp',
+          clip: 'assets/vid/wash.mp4',
+          clipMobile: 'assets/vid/wash-m.mp4',
+          accent: '#D8DCDE',
+          scroll: 1.25,
+          eyebrow: 'The ritual begins',
+          title: 'A careful hand wash.',
+          body: 'pH-neutral foam, plush mitts, and no shortcuts — grime is lifted, never ground in.',
+          tags: ['pH-neutral foam', 'Swirl-free'],
+        },
+        {
+          id: 'correction', label: 'Correction',
+          still: 'assets/correction.webp',
+          clip: 'assets/vid/correction.mp4',
+          clipMobile: 'assets/vid/correction-m.mp4',
+          accent: '#CFCabc',
+          scroll: 1.35, linger: 0.4,
+          eyebrow: 'Paint correction',
+          title: 'Depth, restored.',
+          body: 'Multi-stage machine polishing removes swirls until the paint reflects like glass.',
+          tags: ['Multi-stage polish', 'Mirror finish'],
+        },
+        {
+          id: 'interior', label: 'Interior',
+          still: 'assets/interior.webp',
+          clip: 'assets/vid/interior.mp4',
+          clipMobile: 'assets/vid/interior-m.mp4',
+          accent: '#D8D2C6',
+          scroll: 1.25,
+          eyebrow: 'Interior craft',
+          title: 'Every surface, considered.',
+          body: 'Leather conditioned grain by grain; every seam, vent, and stitch detailed by hand.',
+          tags: ['Leather care', 'Hand-detailed'],
+        },
+        {
+          id: 'protection', label: 'Protection',
+          still: 'assets/protection.webp',
+          clip: 'assets/vid/protection.mp4',
+          clipMobile: 'assets/vid/protection-m.mp4',
+          accent: '#CBD3D6',
+          scroll: 1.35, linger: 0.4,
+          eyebrow: 'Ceramic protection',
+          title: 'A lasting shield.',
+          body: 'A ceramic coating seals the finish — hydrophobic, high-gloss, built to endure.',
+          tags: ['9H ceramic', 'Years of gloss'],
+        },
+        {
+          id: 'reveal', label: 'The Reveal',
+          still: 'assets/reveal.webp',
+          clip: 'assets/vid/reveal.mp4',
+          clipMobile: 'assets/vid/reveal-m.mp4',
+          accent: '#F1EEE7',
+          scroll: 1.8, linger: 0.5,
+          eyebrow: 'The reveal',
+          title: 'Perfected. Delivered.',
+          body: 'The craft of the takumi — your car returned to you, flawless.',
+          tags: [],
+          cta: {
+            primary: { label: 'Book a detail', href: 'mailto:hello@takumidetailing.com?subject=Booking%20request' },
+            secondary: { label: 'View services', href: '#top' },
+          },
+        },
+      ],
+      // Architecture A (continuous forward take): no connectors — the legs are the journey.
+      connectors: [],
+    });
+  </script>
+</body>
+</html>
