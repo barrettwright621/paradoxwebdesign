@@ -196,20 +196,34 @@ function mountScrollWorld(container, config) {
     s.loading = true;
     // Serve the lighter mobile encode on phones when one was provided.
     const url = (isMobile() && s.clipM) ? s.clipM : s.clip;
+    const attach = (v) => {
+      v.className = 'sw-scene__video';
+      v.muted = true; v.playsInline = true; v.preload = 'auto';
+      v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+      v.addEventListener('loadedmetadata', () => { s.ready = true; read(); });
+      // Reveal the video (hide the still poster) only once a real frame has
+      // painted — on iOS a seeked-but-never-played muted video stays blank, so
+      // hiding the still on metadata alone would flash an empty scene.
+      v.addEventListener('seeked', () => { s.el.classList.add('has-clip'); }, { once: true });
+      v.addEventListener('loadeddata', () => { try { v.pause(); } catch (e) {} if (userReady) primeVideo(v); });
+      s.el.appendChild(v); s.video = v; s.hasClip = true;
+    };
+    // directSrc: hotlink the clip straight from a range-capable CDN (e.g. CloudFront)
+    // instead of fetching it as a Blob. Cross-origin <video> plays/seeks without CORS,
+    // whereas fetch()->blob would need Access-Control-Allow-Origin. No crossOrigin attr
+    // (setting it would *require* CORS and break playback when the CDN omits the header).
+    if (config.directSrc) {
+      const v = document.createElement('video');
+      v.addEventListener('error', () => { s.loading = false; s.hasClip = false; }, { once: true });
+      v.src = url;
+      attach(v);
+      return;
+    }
     fetch(url).then(r => r.ok ? r.blob() : Promise.reject(new Error('404')))
       .then(blob => {
         const v = document.createElement('video');
-        v.className = 'sw-scene__video';
-        v.muted = true; v.playsInline = true; v.preload = 'auto';
-        v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
         v.src = URL.createObjectURL(blob);
-        v.addEventListener('loadedmetadata', () => { s.ready = true; read(); });
-        // Reveal the video (hide the still poster) only once a real frame has
-        // painted — on iOS a seeked-but-never-played muted video stays blank, so
-        // hiding the still on metadata alone would flash an empty scene.
-        v.addEventListener('seeked', () => { s.el.classList.add('has-clip'); }, { once: true });
-        v.addEventListener('loadeddata', () => { try { v.pause(); } catch (e) {} if (userReady) primeVideo(v); });
-        s.el.appendChild(v); s.video = v; s.hasClip = true;
+        attach(v);
       }).catch(() => { s.loading = false; });
   }
 
